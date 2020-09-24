@@ -1,4 +1,6 @@
-# Sliding puzzle desarrollado para la materia CÓMPUTO EN DISPOSITIVOS MÓVILES impartida por el profesor MANUEL RUÍZ MÉNDEZ.
+# Sliding puzzle 
+
+Desarrollado para la materia CÓMPUTO EN DISPOSITIVOS MÓVILES impartida por el profesor MANUEL RUÍZ MÉNDEZ.
 
 Integrantes: 
 Espinoza Martínez Pedro Luis - 1730314
