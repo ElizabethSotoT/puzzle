@@ -1,24 +1,29 @@
 import ketai.ui.*;                                      // Libreria para la deteccion de gestos en movil
 import android.view.MotionEvent;
 
-int cols = 4;
-int rows = 4;
+int cols = 3;
+int rows = 3;
 int numCells = cols * rows;
-int scl = 400 / cols;
+int scl = 800 / cols;
 int[] cells = new int[numCells];
-//int x, y;                                               //Variables KetaiGesture
+
 PFont font; 
-float x1,x2,y1,y2;
-//float rectSize = 100;  
+
 KetaiGesture gesture;      
 
+int index;
+int up;
+int right;
+int down;
+int left ;
+int cont=0;
 
 void setup() {
-  orientation(PORTRAIT);
+  orientation(PORTRAIT);  //vertical
   gesture = new KetaiGesture(this);  
-  size(401, 401);
+  size(801, 801);
   
-  reset();
+  //reset();
   
   font = createFont("Arial", 48);
 }
@@ -33,7 +38,7 @@ void draw() {
       stroke(0);
       noFill();
       if (cells[index] > 0) {
-        fill(175, 0, 255);
+        fill(90, 90, 90);
       }
       rect(i*scl, j*scl, scl, scl);
       
@@ -59,15 +64,12 @@ public boolean surfaceTouchEvent(MotionEvent event) {
 
 void onFlick( float x, float y, float px, float py, float v) 
 {
-  // x,y where flick ended, px,py - where flick began, v - velocity of flick in pixels/sec 
-  //text("FLICK", x, y-10);
-  //println("FLICK:" + x + "," + y + "," + v);
-  //bg = color(random(255), random(255), random(255));
-  int index = findZero(cells);
-  int up = index - cols;
-  int right = index + 1;
-  int down = index + cols;
-  int left = index - 1;
+
+   index = findZero(cells);
+   up = index - cols;
+   right = index + 1;
+   down = index + cols;
+   left = index - 1;
   
   if (index < cols) {
     up = index;
@@ -79,20 +81,20 @@ void onFlick( float x, float y, float px, float py, float v)
     left = index;
   }
   
-  //if (key == CODED) {
-    if (px>x){
+  //if (surfaceTouchEvent()) { //<>//
+    if (py<y){
       swap(cells, index, down);
+      println("py:" + py + ",y" + y);
     } else if (px<x){
       swap(cells, index, left);
     } else if (py>y) {
       swap(cells, index, up);
-    } else if (py<y) {
+    } else if (px>x) {
       swap(cells, index, right);
     }
-//  }
-  if (key == 'r' && key == 'R') {
-    reset();
-  }
+  //}
+
+  cont++;
 }
 
 void reset() {
@@ -104,22 +106,7 @@ void reset() {
   cells[numCells-1] = 0;
   
 }
-/*
-void onTap(float x, float y){
-  x1= x;
-  y1 = y;
-}
-void onDoubleTap(float x, float y){
-  // - x,y location of double tap
-   x2= x;
-  y2 = y;
-}
 
-replace flick
-void keyPressed() {
-  
-}
-*/
 int findZero(int[] arr) {
   int index = -1;
   
