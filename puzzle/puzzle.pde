@@ -6,9 +6,10 @@ int rows = 4;
 int numCells = cols * rows;
 int scl = 400 / cols;
 int[] cells = new int[numCells];
-int x, y;                                               //Variables KetaiGesture
+//int x, y;                                               //Variables KetaiGesture
 PFont font; 
-float rectSize = 100;  
+float x1,x2,y1,y2;
+//float rectSize = 100;  
 KetaiGesture gesture;      
 
 
@@ -58,13 +59,10 @@ public boolean surfaceTouchEvent(MotionEvent event) {
 
 void onFlick( float x, float y, float px, float py, float v) 
 {
+  // x,y where flick ended, px,py - where flick began, v - velocity of flick in pixels/sec 
   //text("FLICK", x, y-10);
   //println("FLICK:" + x + "," + y + "," + v);
   //bg = color(random(255), random(255), random(255));
-}
-
-//replace flick
-void keyPressed() {
   int index = findZero(cells);
   int up = index - cols;
   int right = index + 1;
@@ -81,17 +79,17 @@ void keyPressed() {
     left = index;
   }
   
-  if (key == CODED) {
-    if (keyCode == UP) {
+  //if (key == CODED) {
+    if (px>x){
       swap(cells, index, down);
-    } else if (keyCode == RIGHT) {
+    } else if (px<x){
       swap(cells, index, left);
-    } else if (keyCode == DOWN) {
+    } else if (py>y) {
       swap(cells, index, up);
-    } else if (keyCode == LEFT) {
+    } else if (py<y) {
       swap(cells, index, right);
     }
-  }
+//  }
   if (key == 'r' && key == 'R') {
     reset();
   }
@@ -104,8 +102,24 @@ void reset() {
   
   swap(cells, numCells-3, numCells-2);
   cells[numCells-1] = 0;
+  
+}
+/*
+void onTap(float x, float y){
+  x1= x;
+  y1 = y;
+}
+void onDoubleTap(float x, float y){
+  // - x,y location of double tap
+   x2= x;
+  y2 = y;
 }
 
+replace flick
+void keyPressed() {
+  
+}
+*/
 int findZero(int[] arr) {
   int index = -1;
   
@@ -123,15 +137,4 @@ void swap(int[] arr, int i, int j) {
   int temp = arr[i];
   arr[i] = arr[j];
   arr[j] = temp;
-}
-
-void mouseDragged()                                   
-{
-  if (abs(mouseX - x) < rectSize/2 && abs(mouseY - y) < rectSize/2)
-  {
-    if (abs(mouseX - pmouseX) < rectSize/2)
-      x += mouseX - pmouseX;
-    if (abs(mouseY - pmouseY) < rectSize/2)
-      y += mouseY - pmouseY;
-  }
 }
